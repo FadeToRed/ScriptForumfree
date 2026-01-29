@@ -1,4 +1,4 @@
-<script type="text/javascript"> // Caricamento a cascata nei Summary & Details 
+// Caricamento a cascata nei Summary & Details 
 document.addEventListener('DOMContentLoaded', function() { 
  document.querySelectorAll('details').forEach(detail => { 
  
@@ -46,4 +46,4 @@ document.addEventListener('DOMContentLoaded', function() {
  }); 
  }); 
 }); 
-</script>
+
