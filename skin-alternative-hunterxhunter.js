@@ -1,4 +1,4 @@
-// Aspetta che il DOM sia caricato 
+// Aspetta che il DOM sia caricato  
 document.addEventListener('DOMContentLoaded', function() { 
  var menu = document.querySelector('.menuwrap .right'); 
  
