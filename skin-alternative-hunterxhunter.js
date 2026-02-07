@@ -56,10 +56,10 @@ document.addEventListener('DOMContentLoaded', function() {
  menu.appendChild(nataleBtn); 
  } 
 }); 
-</script> 
+
  
-<!-- CARICAMENTO SKIN INIZIALE --> 
-<script type="text/javascript"> 
+//CARICAMENTO SKIN INIZIALE
+
 function def() { 
  document.body.classList.remove('bodynatale', 'bodyhalloween'); 
  document.body.classList.add('bodydef'); 
