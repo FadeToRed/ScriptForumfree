@@ -1,4 +1,3 @@
-
 // Aspetta che il DOM sia caricato 
 document.addEventListener('DOMContentLoaded', function() { 
  var menu = document.querySelector('.menuwrap .right'); 
@@ -57,26 +56,32 @@ document.addEventListener('DOMContentLoaded', function() {
  menu.appendChild(nataleBtn); 
  } 
 }); 
-//Caricamenti iniziale
+</script> 
+ 
+<!-- CARICAMENTO SKIN INIZIALE --> 
+<script type="text/javascript"> 
 function def() { 
- document.body.className = "bodydef"; 
+ document.body.classList.remove('bodynatale', 'bodyhalloween'); 
+ document.body.classList.add('bodydef'); 
 } 
 function natale() { 
- document.body.className = "bodynatale"; 
+ document.body.classList.remove('bodydef', 'bodyhalloween'); 
+ document.body.classList.add('bodynatale'); 
 } 
 function halloween() { 
- document.body.className = "bodyhalloween"; 
+ document.body.classList.remove('bodydef', 'bodynatale'); 
+ document.body.classList.add('bodyhalloween'); 
 } 
  
 if (localStorage.getItem('skin') === null) { 
  localStorage.setItem('skin','def'); 
 } 
 else if (localStorage.getItem('skin') === 'def') { 
- null 
+ def(); 
 } 
-else if(localStorage.getItem("skin") == "natale") { 
+else if(localStorage.getItem('skin') == "natale") { 
  natale(); 
 } 
-else if(localStorage.getItem("skin") == "halloween") { 
+else if(localStorage.getItem('skin') == "halloween") { 
  halloween(); 
 } 
