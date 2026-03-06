@@ -42,7 +42,9 @@
  classList.indexOf('box_founder') !== -1 || 
  classList.indexOf('box_globalmod') !== -1 || 
  classList.indexOf('box_gruppo1') !== -1 || 
- classList.indexOf('box_gruppo2') !== -1; 
+ classList.indexOf('box_gruppo2') !== -1 ||
+ classList.indexOf('box_gruppo3') !== -1 ||
+ classList.indexOf('box_gruppo4') !== -1; 
  } 
  
  // Se il profilo visitato non è staff, esci 
