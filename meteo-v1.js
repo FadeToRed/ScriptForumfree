@@ -1,4 +1,12 @@
+/* ================================================================
+   hxh-weather.js
+   Widget meteo on-game per Hunter x Hunter RPG su ForumFree.
+   https://github.com/TUO-USERNAME/TUO-REPO
+   ================================================================ */
 
+/* ================================================================
+   POOL METEO CON PESI
+   ================================================================ */
 const WEATHER_BY_SEASON = {
   spring: [
     { label: "Soleggiato",     icon: "wx-sunny",   minT: 14, maxT: 22, weight: 2 },
@@ -412,25 +420,29 @@ function updateWidget() {
 
 /* ================================================================
    AVVIO E TIMER
+   Chiamato dal blocco di configurazione su ForumFree,
+   dopo la definizione di HXH.
    ================================================================ */
-initWidget();
+function hxhStart() {
+  initWidget();
 
-var _lastNight = null;
-setInterval(function() {
-  var gt     = getGameTime();
-  var loc    = detectLoc();
-  var locH   = applyOffset(gt.h, loc.offset);
-  var season = getSeason(gt.gameDate.getMonth());
-  var night  = isNight(locH, season);
+  var _lastNight = null;
+  setInterval(function() {
+    var gt     = getGameTime();
+    var loc    = detectLoc();
+    var locH   = applyOffset(gt.h, loc.offset);
+    var season = getSeason(gt.gameDate.getMonth());
+    var night  = isNight(locH, season);
 
-  var el = document.querySelector(".hxh-time-display");
-  if (el) el.textContent = pad(locH) + ":" + pad(gt.m);
+    var el = document.querySelector(".hxh-time-display");
+    if (el) el.textContent = pad(locH) + ":" + pad(gt.m);
 
-  if (_lastNight !== null && night !== _lastNight) updateWidget();
-  _lastNight = night;
-}, 10000);
+    if (_lastNight !== null && night !== _lastNight) updateWidget();
+    _lastNight = night;
+  }, 10000);
 
-setInterval(updateWidget, 60 * 1000);
+  setInterval(updateWidget, 60 * 1000);
+}
 
 /* ================================================================
    STILI
