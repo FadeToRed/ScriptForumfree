@@ -522,9 +522,17 @@ function updateWidget() {
 
   // Controlla override Firebase (zona specifica > globale > generato)
   var override = getOverride(loc.id);
-  var weather  = override
-    ? { icon: override.icon, label: override.label, temp: getWeather(gt.gameDate, loc.name, loc.climate, locH).temp }
-    : getWeather(gt.gameDate, loc.name, loc.climate, locH);
+  var weather  = getWeather(gt.gameDate, loc.name, loc.climate, locH);
+  if (override) {
+    weather.icon  = override.icon;
+    weather.label = override.label;
+    if (override.temp) {
+      if (override.temp.mode === "abs")   weather.temp = override.temp.val;
+      if (override.temp.mode === "plus")  weather.temp = weather.temp + override.temp.val;
+      if (override.temp.mode === "minus") weather.temp = weather.temp - override.temp.val;
+      weather.temp = Math.round(weather.temp);
+    }
+  }
   if (weather.nightOverride !== undefined) night = weather.nightOverride;
 
   var el;
