@@ -276,7 +276,8 @@ function detectLoc() {
       return { id: id, name: loc.name, offset: loc.offset, climate: loc.climate };
     }
   }
-  return { id: "default", name: HXH.DEFAULT_LOC.name, offset: HXH.DEFAULT_LOC.offset, climate: HXH.DEFAULT_LOC.climate };
+  var d = HXH.DEFAULT_LOC;
+  return { id: d.id, name: d.name, offset: d.offset, climate: d.climate };
 }
 
 /* ================================================================
