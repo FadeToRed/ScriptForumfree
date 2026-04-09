@@ -1,5 +1,5 @@
 /* ================================================================
-   hxh-weather.js  (v3)
+   hxh-weather.js  (v3.1)
    Widget meteo on-game per Hunter x Hunter RPG su ForumFree.
    ================================================================ */
 
@@ -498,7 +498,8 @@ function updateWidget() {
   el = bar.querySelector(".hxh-head-name");    if (el) el.textContent = loc.name;
   el = bar.querySelector(".hxh-time-display"); if (el) el.textContent = pad(locH) + ":" + pad(gt.m);
   el = bar.querySelector(".hxh-date-text");    if (el) el.textContent = gt.gameDate.getUTCDate() + " " + MONTHS[gt.gameDate.getUTCMonth()] + " " + gt.gameDate.getUTCFullYear();
-  el = bar.querySelector(".hxh-weather-label"); if (el) el.textContent = weather.label;
+  var displayLabel = (weather.icon === "wx-sunny" && night) ? "Sereno" : weather.label;
+  el = bar.querySelector(".hxh-weather-label"); if (el) el.textContent = displayLabel;
   el = bar.querySelector(".hxh-weather-temp");  if (el) el.textContent = (weather.temp > 0 ? "+" : "") + weather.temp + "\u00b0C";
 
   if (weather.icon !== _state.icon || night !== _state.night) {
