@@ -1,5 +1,5 @@
 /* ================================================================
-   hxh-weather.js  (v3.1)
+   hxh-weather.js  (v3.2)
    Widget meteo on-game per Hunter x Hunter RPG su ForumFree.
    ================================================================ */
 
@@ -258,6 +258,8 @@ function getWeather(gameDate, locName, locClimate, locH) {
 function getGameTime() {
   var realElapsedMs = Date.now() - HXH.REAL_EPOCH.getTime();
   var msPerGameDay  = HXH.MINS_PER_GAME_DAY * 60 * 1000;
+  // GAME_EPOCH va sempre definito con stringa Z (es. "2017-01-01T01:00:00Z")
+  // per evitare che il browser lo interpreti in fuso orario locale.
   var gameDate      = new Date(HXH.GAME_EPOCH.getTime() + realElapsedMs * (86400000 / msPerGameDay));
   return { gameDate: gameDate, h: gameDate.getUTCHours(), m: gameDate.getUTCMinutes() };
 }
