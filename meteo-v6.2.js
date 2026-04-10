@@ -186,43 +186,66 @@ var WORLD_TREE = [
   { id:"65114235", depth:1, children:[] }
 ];
 
-// Dato l'id di un continente, restituisce la fascia climatica
-// maggioritaria tra i suoi paesi diretti. In caso di parità,
-// usa l'ordine di priorità: temperate > subtropical > subpolar.
-function getContinentClimate(continentId) {
-  var node = null;
-  for (var i = 0; i < WORLD_TREE.length; i++) {
-    if (WORLD_TREE[i].id === continentId) { node = WORLD_TREE[i]; break; }
-  }
-  if (!node || node.children.length === 0) return "temperate";
-  var counts = { subtropical: 0, temperate: 0, subpolar: 0 };
-  node.children.forEach(function(c) { if (counts[c.climate] !== undefined) counts[c.climate]++; });
-  var best = "temperate", bestN = -1;
-  ["temperate", "subtropical", "subpolar"].forEach(function(cl) {
-    if (counts[cl] > bestN) { bestN = counts[cl]; best = cl; }
-  });
-  return best;
-}
+/* ================================================================
+   ALBERO GEOGRAFICO — fasce climatiche fisse per continente
+   ================================================================ */
+var WORLD_TREE = [
+  { id:"65073567", climate:"subtropical", children:[  // Narevka
+    { id:"65114239", climate:"subtropical" },
+    { id:"65114241", climate:"subtropical" },
+    { id:"65114242", climate:"subtropical" },
+    { id:"65114243", climate:"subtropical" }
+  ]},
+  { id:"65073568", climate:"temperate", children:[    // Solmara
+    { id:"65114247", climate:"temperate"   },
+    { id:"65114248", climate:"subtropical" },
+    { id:"65114249", climate:"subtropical" }
+  ]},
+  { id:"65073569", climate:"temperate", children:[    // Yorbian
+    { id:"65114252", climate:"temperate"   },
+    { id:"65114254", climate:"subpolar"    },
+    { id:"65114255", climate:"temperate"   },
+    { id:"65114253", climate:"subpolar"    }
+  ]},
+  { id:"65114231", climate:"temperate", children:[    // Azia
+    { id:"65114265", climate:"subtropical" },
+    { id:"65114264", climate:"temperate"   },
+    { id:"65114266", climate:"temperate"   }
+  ]},
+  { id:"65114232", climate:"temperate", children:[    // Kethra
+    { id:"65114267", climate:"temperate"   },
+    { id:"65114268", climate:"subpolar"    }
+  ]},
+  { id:"65114234", climate:"subtropical", children:[ // Città delle Stelle Cadenti
+    { id:"65114272", climate:"subtropical" }
+  ]},
+  { id:"65114233", climate:"subpolar", children:[    // Vandros
+    { id:"65114270", climate:"subpolar"    },
+    { id:"65114271", climate:"temperate"   }
+  ]},
+  { id:"65114235", climate:"temperate", children:[]  } // Greed Island
+];
 
 // Dato l'id di un continente e la data di gioco, restituisce
-// { name, climate } del paese figlio da usare per generare il meteo.
-// Sceglie solo tra i paesi della fascia maggioritaria, in modo
-// deterministico ma variabile di giorno in giorno.
+// il paese figlio da usare per generare il meteo, scelto
+// tra quelli della fascia climatica del continente,
+// in modo deterministico ma variabile di giorno in giorno.
 function getContinentDelegate(continentId, gameDate) {
   var node = null;
   for (var i = 0; i < WORLD_TREE.length; i++) {
     if (WORLD_TREE[i].id === continentId) { node = WORLD_TREE[i]; break; }
   }
   if (!node || node.children.length === 0) return null;
-  var majorClimate = getContinentClimate(continentId);
-  var eligible = node.children.filter(function(c) { return c.climate === majorClimate; });
+  // Filtra solo i paesi della fascia del continente
+  var eligible = node.children.filter(function(c) { return c.climate === node.climate; });
   if (eligible.length === 0) eligible = node.children;
-  // seed giornaliero: anno * 1000 + giorno dell'anno
-  var doy = Math.floor((gameDate - new Date(gameDate.getFullYear(), 0, 0)) / 86400000);
+  // Seed giornaliero deterministico
+  var doy  = Math.floor((gameDate - new Date(gameDate.getFullYear(), 0, 0)) / 86400000);
   var seed = gameDate.getFullYear() * 1000 + doy;
-  var idx  = seed % eligible.length;
-  return eligible[idx];
+  return eligible[seed % eligible.length];
 }
+
+
 
 
 
@@ -658,10 +681,13 @@ function updateWidget() {
   if (isCont) {
     var delegate = getContinentDelegate(loc.id, gt.gameDate);
     if (delegate) {
-      // Cerca il nome del paese nel SECTION_MAP
       var delEntry = HXH.SECTION_MAP[delegate.id];
-      weatherLocName    = delEntry ? delEntry.name    : loc.name;
-      weatherLocClimate = delegate.climate;
+      if (delEntry) {
+        weatherLocName    = delEntry.name;
+        weatherLocClimate = delegate.climate;
+        // Ricalcola locH con l'offset del paese delegato
+        locH = applyOffset(gt.h, delEntry.offset);
+      }
     }
   }
 
