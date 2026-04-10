@@ -588,6 +588,7 @@ function updateWidget() {
   el = bar.querySelector(".hxh-time-display"); if (el) el.textContent = pad(locH) + ":" + pad(gt.m);
   el = bar.querySelector(".hxh-date-text");    if (el) el.textContent = gt.gameDate.getUTCDate() + " " + MONTHS[gt.gameDate.getUTCMonth()] + " " + gt.gameDate.getUTCFullYear();
   var displayLabel = (weather.icon === "wx-sunny" && night) ? "Sereno" : weather.label;
+  if (weather.icon === "wx-tornado" && loc.climate === "subtropical") displayLabel = "Uragano";
   el = bar.querySelector(".hxh-weather-label"); if (el) el.textContent = displayLabel;
   el = bar.querySelector(".hxh-weather-temp");  if (el) el.textContent = (weather.temp > 0 ? "+" : "") + weather.temp + "\u00b0C";
 
@@ -806,6 +807,7 @@ function hxhStart() {
 
   s.textContent += '.ice-aura { position:absolute; top:50%; left:50%; width:7em; height:7em; border-radius:50%; background:radial-gradient(circle,rgba(130,190,240,0.55) 0%,rgba(130,190,240,0.25) 45%,rgba(130,190,240,0.05) 70%,transparent 100%); animation:ice-pulse 2.5s ease-in-out infinite; z-index:0; }\n';
   s.textContent += '.wx-blizzard .ice-crystal { font-size:8em; color:#fff; text-shadow:none; z-index:1; }\n';
+  s.textContent += '.wx-blizzard .ice-crystal::before, .wx-blizzard .ice-crystal::after { display:none; }\n';
   s.textContent += '@keyframes ice-pulse { 0%,100%{transform:translate(-50%,-50%) scale(1)} 50%{transform:translate(-50%,-50%) scale(1.2)} }\n';
 
   document.head.appendChild(s);
