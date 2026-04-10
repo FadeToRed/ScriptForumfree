@@ -204,6 +204,26 @@ function getContinentClimate(continentId) {
   return best;
 }
 
+// Dato l'id di un continente e la data di gioco, restituisce
+// { name, climate } del paese figlio da usare per generare il meteo.
+// Sceglie solo tra i paesi della fascia maggioritaria, in modo
+// deterministico ma variabile di giorno in giorno.
+function getContinentDelegate(continentId, gameDate) {
+  var node = null;
+  for (var i = 0; i < WORLD_TREE.length; i++) {
+    if (WORLD_TREE[i].id === continentId) { node = WORLD_TREE[i]; break; }
+  }
+  if (!node || node.children.length === 0) return null;
+  var majorClimate = getContinentClimate(continentId);
+  var eligible = node.children.filter(function(c) { return c.climate === majorClimate; });
+  if (eligible.length === 0) eligible = node.children;
+  // seed giornaliero: anno * 1000 + giorno dell'anno
+  var doy = Math.floor((gameDate - new Date(gameDate.getFullYear(), 0, 0)) / 86400000);
+  var seed = gameDate.getFullYear() * 1000 + doy;
+  var idx  = seed % eligible.length;
+  return eligible[idx];
+}
+
 
 
 // Mesi 0-based: 11=dic, 0=gen, 1=feb → estate; ecc.
@@ -626,19 +646,28 @@ function updateWidget() {
   var season  = getSeason(gt.gameDate.getMonth());
   var night   = isNight(locH, season);
 
-  // Se la location è un continente (presente in WORLD_TREE depth 1),
-  // la fascia climatica è quella maggioritaria tra i suoi paesi.
-  var effectiveClimate = loc.climate;
+  // Se la location è un continente, delega meteo e temperatura
+  // a uno dei paesi figli della fascia climatica maggioritaria,
+  // scelto in modo deterministico per la giornata di gioco.
+  var weatherLocName    = loc.name;
+  var weatherLocClimate = loc.climate;
+  var isCont = false;
   for (var wi = 0; wi < WORLD_TREE.length; wi++) {
-    if (WORLD_TREE[wi].id === loc.id) {
-      effectiveClimate = getContinentClimate(loc.id);
-      break;
+    if (WORLD_TREE[wi].id === loc.id) { isCont = true; break; }
+  }
+  if (isCont) {
+    var delegate = getContinentDelegate(loc.id, gt.gameDate);
+    if (delegate) {
+      // Cerca il nome del paese nel SECTION_MAP
+      var delEntry = HXH.SECTION_MAP[delegate.id];
+      weatherLocName    = delEntry ? delEntry.name    : loc.name;
+      weatherLocClimate = delegate.climate;
     }
   }
 
   // Controlla override Firebase (zona specifica > globale > generato)
   var override = getOverride(loc.id);
-  var weather  = getWeather(gt.gameDate, loc.name, effectiveClimate, locH);
+  var weather  = getWeather(gt.gameDate, weatherLocName, weatherLocClimate, locH);
   if (override) {
     if (override.icon)  { weather.icon  = override.icon;  weather.label = override.label; }
     if (override.temp) {
