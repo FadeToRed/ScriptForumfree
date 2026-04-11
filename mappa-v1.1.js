@@ -632,4 +632,12 @@ document.querySelectorAll('.gdr-trigger').forEach(function(el) {
  });
 });
 
+
+/* ── Esponi le funzioni usate negli onclick HTML ── */
+window.gdrOpenLightbox = gdrOpenLightbox;
+window.gdrCloseLightbox = gdrCloseLightbox;
+window.gdrCloseModal = gdrCloseModal;
+window.gdrGoThread = gdrGoThread;
+window.hxhPsCycleTempMode = typeof hxhPsCycleTempMode !== 'undefined' ? hxhPsCycleTempMode : undefined;
+
 })();
