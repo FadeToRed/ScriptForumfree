@@ -172,20 +172,20 @@
                     ? 'https://' + location.hostname + '/?f=' + topic.sectionId
                     : '#';
 
-                var sectionStyle = '';
-                if (topic.sectionId) {
-                    var topicSecId = String(topic.sectionId);
-                    outer: for (var gruppo in config.coloriSezioni) {
-                        if (!config.coloriSezioni.hasOwnProperty(gruppo)) continue;
-                        var grp = config.coloriSezioni[gruppo];
-                        for (var j = 0; j < grp.ids.length; j++) {
-                            if (grp.ids[j] === topicSecId) {
-                                sectionStyle = ' style="background:' + grp.color + ' !important"';
-                                break outer;
-                            }
-                        }
-                    }
-                }
+               var sectionClass = '';
+if (topic.sectionId) {
+    var topicSecId = String(topic.sectionId);
+    outer: for (var gruppo in config.coloriSezioni) {
+        if (!config.coloriSezioni.hasOwnProperty(gruppo)) continue;
+        var grp = config.coloriSezioni[gruppo];
+        for (var j = 0; j < grp.ids.length; j++) {
+            if (grp.ids[j] === topicSecId) {
+                sectionClass = ' ' + grp.className;
+                break outer;
+            }
+        }
+    }
+}
 
                 // Il title= mostra solo testo puro (strip dei tag HTML)
                 var sectionNamePlain = topic.sectionName.replace(/<[^>]*>/g, '');
@@ -193,7 +193,7 @@
                 var sectionNameHtml  = echoDecodeHtml(topic.sectionName);
 
                 html += '<div class="echo-item">'
-                    + '<a href="' + sectionUrl + '" class="echo-section"' + sectionStyle + ' target="_blank" title="' + sectionNamePlain + '">' + sectionNameHtml + '</a>'
+                    + '<a href="' + sectionUrl + '" class="echo-section' + sectionClass + '" target="_blank" title="' + sectionNamePlain + '">' + sectionNameHtml + '</a>'
                     + '<a href="' + topic.authorUrl + '" class="echo-avatar-wrap" target="_blank">' + avatarHtml + '</a>'
                     + '<div class="echo-content">'
                     + '<div class="echo-meta">'
