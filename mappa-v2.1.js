@@ -146,7 +146,7 @@ _wrap.innerHTML = `<div id="gdr-btn" onclick="gdrOpenLightbox()">
  </div>
  <div class="gdr-btn-grid"></div>
  <div class="gdr-btn-fade"></div>
- <div style="position:absolute;bottom:0;left:0;right:0;height:30px;background:rgba(11,72,107,0.82);border-top:1px solid rgba(59,134,134,0.4)">
+ <div class="gdr-btn-bordino" style="position:absolute;bottom:0;left:0;right:0;height:30px;background:rgba(11,72,107,0.82);border-top:1px solid rgba(59,134,134,0.4)">
   <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%)">
    <i class="fa-regular fa-map" style="color:#79BD9A;font-size:13px"></i>
    <span style="font-family:var(--sottotitolo);font-size:15px;color:#CFF09E;letter-spacing:0.04em;margin-left:8px">Mappa del Mondo</span>
