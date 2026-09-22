@@ -16,8 +16,8 @@
 
   // Rimuove il pre-hide messo dal blocco config
   function unhide() {
-    var h = document.documentElement;
-    if (h) h.className = h.className.replace(/(^|\s)mnt-pre(?=\s|$)/g, " ");
+    var el = document.getElementById("mnt-pre");
+    if (el && el.parentNode) el.parentNode.removeChild(el);
   }
 
   if (mode !== 1 && mode !== 2) { unhide(); return; }
