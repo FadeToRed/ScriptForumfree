@@ -1,7 +1,7 @@
 (function () {
   // ============================================================
   // OVERLAY MANUTENZIONE FORUM (versione GitHub / jsDelivr)
-  // Legge la configurazione da window.MNT_CONFIG (blocco inline su ForumFree).
+  // Legge la variabile globale "manutenzione" (blocco inline su ForumFree).
   //   mode 0 = overlay disattivato
   //   mode 1 = accesso solo allo staff (admin, g1-g4)
   //   mode 2 = accesso solo agli amministratori (admin, g1)
@@ -11,16 +11,23 @@
   if (window.__mntLoaded) return;
   window.__mntLoaded = true;
 
-  var cfg = window.MNT_CONFIG || {};
-  var mode = parseInt(cfg.mode, 10) || 0;
+  // Valore impostato su ForumFree: var manutenzione = 0 / 1 / 2;
+  var mode = parseInt(window.manutenzione, 10) || 0;
+  if (mode !== 1 && mode !== 2) return;
 
-  // Rimuove il pre-hide messo dal blocco config
+  // Pre-hide: nasconde il body finche' non si decide chi puo' entrare
+  var pre = document.createElement("style");
+  pre.id = "mnt-pre";
+  pre.appendChild(document.createTextNode("body{visibility:hidden!important;}"));
+  (document.head || document.documentElement).appendChild(pre);
+
   function unhide() {
     var el = document.getElementById("mnt-pre");
     if (el && el.parentNode) el.parentNode.removeChild(el);
   }
 
-  if (mode !== 1 && mode !== 2) { unhide(); return; }
+  // Paracadute: se qualcosa va storto, il forum torna visibile
+  setTimeout(unhide, 6000);
 
   // --- Frasi che scorrono in loop (modificale come vuoi) ---
   var frasi = [
