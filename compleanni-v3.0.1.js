@@ -193,7 +193,7 @@
                             var after = ok ? Promise.resolve() : releaseTags(taggedIds, userId);
                             after.then(function() { return markDone(userId); }).then(function() {
                                 setTimeout(function() {
-                                    document['loca'+'tion']['hre'+'f'] = 'https://' + location.hostname + '/?t=' + SETTINGS.topic + '#newpost';
+                                    document['loca'+'tion']['hre'+'f'] = 'https://' + location.hostname + '/?t=' + SETTINGS.topic + '&view=getlastpost';
                                 }, 2000);
                             });
                         });
