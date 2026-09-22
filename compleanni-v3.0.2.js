@@ -20,10 +20,10 @@
     async function fbRead() {
         var r, etag = null;
         try {
-            r = await fetch(FB_URL + '.json', { headers: { 'X-Firebase-ETag': 'true' } });
+            r = await fetch(FB_URL + '.json', { cache: 'no-store', headers: { 'X-Firebase-ETag': 'true' } });
             etag = r.headers.get('ETag');
         } catch(e) {
-            r = await fetch(FB_URL + '.json');
+            r = await fetch(FB_URL + '.json', { cache: 'no-store' });
         }
         var data = await r.json();
         if (!data || data.date !== todayKey()) data = { date: todayKey(), users: {}, tagged: {} };
@@ -52,13 +52,13 @@
         try {
             var res = await fbRead();
             return !!res.data.users[userId];
-        } catch(e) { return false; }
+        } catch(e) { console.warn('[BGR] checkDone fallito:', e); return false; }
     }
 
     async function markDone(userId) {
         try {
             await fbTransaction(function(data) { data.users[userId] = true; });
-        } catch(e) {}
+        } catch(e) { console.warn('[BGR] markDone fallito:', e); }
     }
 
     // Riserva il tag per i festeggiati non ancora taggati oggi.
@@ -76,7 +76,7 @@
                 }
                 return mine;
             });
-        } catch(e) { return []; }
+        } catch(e) { console.warn('[BGR] claimTags fallito:', e); return []; }
     }
 
     // Se il post fallisce, libera i tag riservati così li farà il prossimo utente.
