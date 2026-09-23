@@ -3,7 +3,8 @@ function fgReadConfig() {
   if (cfgEl) {
     try { window.filterGridConfig = JSON.parse(cfgEl.textContent); } catch (e) {}
   }
-  return window.filterGridConfig || {};
+  var res = window.filterGridConfig || {};
+  return res;
 }
 
 function fgParseList(str) {
@@ -11,11 +12,11 @@ function fgParseList(str) {
   if (!str) return out;
   parts = str.split(',');
   for (i = 0; i < parts.length; i++) {
-    p = parts[i].replace(/^\s+|\s+$/g, '');
+    p = parts[i].trim();
     if (!p) continue;
     eq = p.indexOf('=');
     if (eq > -1) {
-      out.push({ value: p.slice(0, eq).replace(/\s+$/, ''), label: p.slice(eq + 1).replace(/^\s+/, '') });
+      out.push({ value: p.slice(0, eq).trim(), label: p.slice(eq + 1).trim() });
     } else {
       out.push({ value: p, label: p });
     }
@@ -122,7 +123,7 @@ function filterGrid(opts) {
 
 (function wait() {
   if (document.querySelector('#filter-controls') && document.querySelector('[data-group]')) {
-    filterGrid();
+    try { filterGrid(); } catch (err) { if (window.console) console.error('filterGrid:', err); }
   } else {
     setTimeout(wait, 50);
   }
