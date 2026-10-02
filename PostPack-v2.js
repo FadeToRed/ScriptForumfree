@@ -151,7 +151,7 @@
  function updateTitleCounter() { 
  var el = document.getElementById('TopicTitle'); 
  var counter = document.getElementById('textTitleRemain'); 
- if (el && counter) counter.value = 100 - el.value.length; 
+ if (el && counter) counter.value = 200 - el.value.length; 
  } 
  
  // ForumFree inietta soft hyphen (U+00AD,) dentro il valore del titolo, 
@@ -183,7 +183,7 @@
  '<select class="codebuttons titleSelBBCode" title="Inserisci tag Colore Carattere" data-n="color">' + 
  buildColorOptions() + 
  '</select>' + 
- '&nbsp; <input type="text" class="textinput" value="100" style="width: 35px" id="textTitleRemain" readonly>'; 
+ '&nbsp; <input type="text" class="textinput" value="200" style="width: 35px" id="textTitleRemain" readonly>'; 
  
  // Inserisce subito dopo il campo titolo. 
  if (title.nextSibling) title.parentNode.insertBefore(wrap, title.nextSibling); 
