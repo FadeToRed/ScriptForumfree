@@ -183,7 +183,7 @@
  '<select class="codebuttons titleSelBBCode" title="Inserisci tag Colore Carattere" data-n="color">' + 
  buildColorOptions() + 
  '</select>' + 
- '&nbsp; <input type="text" class="textinput" value="100" style="width: 25px" id="textTitleRemain" readonly>'; 
+ '&nbsp; <input type="text" class="textinput" value="100" style="width: 35px" id="textTitleRemain" readonly>'; 
  
  // Inserisce subito dopo il campo titolo. 
  if (title.nextSibling) title.parentNode.insertBefore(wrap, title.nextSibling); 
