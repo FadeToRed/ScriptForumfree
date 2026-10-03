@@ -123,7 +123,7 @@
  pal.id = PALETTE_ID;
  pal.setAttribute('style',
  'display:none;position:absolute;z-index:10000;width:300px;padding:6px;' +
- 'background:#E2F7C4;border:1px solid #3B8686;border-radius:6px;' +
+ 'background:#8fbeba;border:1px solid #0b486b;border-radius:6px;' +
  'box-shadow:0 4px 14px rgba(0,0,0,.3);line-height:0;');
  var sw = '';
  for (var c = 0; c < COLORS.length; c++) {
@@ -166,7 +166,7 @@
  btn.type = 'button';
  btn.className = 'codebuttons ' + cls;
  btn.title = 'Colore';
- btn.innerHTML = '<i class="fa-solid fa-palette"></i>';
+ btn.innerHTML = '<i class="fa-solid fa-palette" style="font-size:1.3em"></i>';
  return btn;
  }
 
@@ -261,7 +261,7 @@
  '<br>' +
  '<button class="codebuttons titleBBCode" title="Testo in Grassetto (alt + b)" accesskey="b" type="button" data-tag="b">&nbsp;<b>B</b>&nbsp;</button>&nbsp;' +
  '<button class="codebuttons titleBBCode" title="Testo in Corsivo (alt + i)" accesskey="i" type="button" data-tag="i">&nbsp;<i>I</i>&nbsp;</button>&nbsp;' +
- '<button class="codebuttons hxhTitleColorToggle" title="Colore" type="button"><i class="fa-solid fa-palette"></i></button>' +
+ '<button class="codebuttons hxhTitleColorToggle" title="Colore" type="button"><i class="fa-solid fa-palette" style="font-size:1.3em"></i></button>' +
  '&nbsp; <input type="text" class="textinput" value="200" style="width: 35px" id="textTitleRemain" readonly>';
 
  // Inserisce subito dopo il campo titolo.
