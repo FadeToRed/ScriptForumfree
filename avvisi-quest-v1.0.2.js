@@ -117,7 +117,7 @@ function controlla() {
     fetch(BOT_URL + '?f=' + BOT_CHIAVE, {
         method: 'POST',
         mode:   'no-cors',
-        body:   JSON.stringify({ t: dato.t, utente: u.nome, uid: u.id, forum: location.hostname })
+        body:   JSON.stringify({ t: dato.t, utente: u.nome, uid: u.id, forum: location.hostname, id: dato.ts })
     }).then(function() {
         log('avviso inviato per ' + u.nome + ' nel topic ' + dato.t);
     }).catch(function(e) {
