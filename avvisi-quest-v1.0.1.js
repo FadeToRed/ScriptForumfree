@@ -15,7 +15,7 @@
  *     minuti, il post è stato pubblicato: parte l'avviso.
  *  Anteprime, modifiche e nuovi topic non generano avvisi.
  *
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 ;(function() {
@@ -26,10 +26,14 @@ var DOMINI = [
 ];
 if (DOMINI.indexOf(location.hostname) === -1) return;
 
+// Se anche il bundle mobile è caricato nella pagina, gira una sola copia
+if (window.__hxhAvvisiQuest) return;
+window.__hxhAvvisiQuest = true;
+
 // ----- Configurazione
 var BOT_URL    = 'https://script.google.com/macros/s/AKfycbz5wsCc8_65goInXEQ50yoN3_eU4EIWE61vgRYy--3OTmrWEiF44qUZvn6plyE3YsU/exec';      // proprietà WEBAPP_URL del primo bot
 var BOT_CHIAVE = '0000000123:ASDFkqN9qDbhS_kgjsPcGDlsie2YLdgwm1Q'; // proprietà SEGRETO_FORUM del primo bot
-var DEBUG      = true;                       // true per vedere i passaggi nella console
+var DEBUG      = false;                       // true per vedere i passaggi nella console
 
 var CHIAVE   = 'hxh-avviso-quest';
 var VALIDITA = 3 * 60 * 1000; // il ritorno al topic deve avvenire entro 3 minuti
